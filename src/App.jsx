@@ -1183,8 +1183,8 @@
 // )
 // }
 
-// // Exercise 9: Optimized Product Filtering
-// // Create a product catalog with multiple filters (category, price range, rating) that update efficiently.
+// Exercise 9: Optimized Product Filtering
+// Create a product catalog with multiple filters (category, price range, rating) that update efficiently.
 // import { useState } from "react";
 // import { useReducer } from "react";
 // export default function Display(){
@@ -1332,3 +1332,101 @@
 //     </div>
 //   )
 // }
+
+// export default function AndCondition(){
+// const isLoggedIn = true;
+// const itemsInCart = 3;
+// const isAdmin = false;
+// const products = [
+//   { id: 101, name: "Laptop", price: 1200 },
+//   { id: 102, name: "Phone", price: 600 },
+//   { id: 103, name: "Headphones", price: 150 }
+// ];
+// const students = [
+//   { id: 1, name: "Aashish" },
+//   { id: 2, name: "Bikram" },
+//   { id: 3, name: "Chirag" }
+// ];
+// const messages = [
+//   { id: 1, text: "Hello!", unread: true },
+//   { id: 2, text: "You have a package.", unread: false },
+//   { id: 3, text: "Meeting at 4 PM!", unread: true }
+// ];
+// const tasks = ["Learn JS", "Practice React", "Go for a run"];
+// return(
+// <>
+// {(itemsInCart > 0) && <p>Cart({itemsInCart})</p>}
+// {isLoggedIn}
+// {isAdmin?<p>IsAdmin Panel</p>:<p>IsUser Panel</p>}
+// {isLoggedIn?<p>Logged In</p>:<p>Not Logged in</p>}
+// <ul>
+//    {tasks.map((task,index)=>{
+//     return(<li key={index}>{task}</li>)
+//    })}
+// </ul>
+// <div className="">
+// {products.map((product)=>{
+//     return(
+//         <p key={product.id}>{product.name} - {product.price}</p>
+//     )
+// })}
+// </div>
+// <div className="">
+//     {students.map((student)=>{
+//         return(<p key={student.id}>{student.name}</p>)
+//     })}
+// </div>
+// <div className="">
+//     {students.map((student,index)=>{
+//         return(<p key={index}>{student.name}</p>)
+//     })}
+// </div>
+// <div className="">
+//     {messages.map((message)=>{
+//         return(
+//             message.unread?<p>🟢 {message.text}</p>:<p>⚪ {message.text}</p>
+//         )
+//     })}
+// </div>
+// </>)
+// }
+
+
+
+// import Card from "./componentcompositionrevision";
+// export default function App(){
+//     return(
+//         <Card title='HEllo' detail='This is hello Card'></Card>
+//     )
+// }
+
+// import Profile from "./propsrevision";
+// import PropTypes from "prop-types";
+
+// export default function App() {
+//   return (
+//     <Profile name={22} age="hello" />   // wrong types on purpose
+//   );
+// }
+
+// import Box from './childrenproprevision'
+// export default function App(){
+//   return(
+//   <Box children={"<h1>This is h1</h1>"}>
+//   </Box>)
+// }
+
+import Button from './destructuringRevision'
+import {Display} from './destructuringRevision'
+import {Display2,Display3,Display4} from './destructuringRevision'
+export default function App(){
+  return(
+    <>
+    <Button label='Click Me' funct={()=>alert('You clicked')}></Button>
+    <Display></Display>
+    <Display2></Display2>
+    <Display3></Display3>
+    <Display4></Display4>
+    </>
+  )
+}
