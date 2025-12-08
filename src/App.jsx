@@ -1416,17 +1416,97 @@
 //   </Box>)
 // }
 
-import Button from './destructuringRevision'
-import {Display} from './destructuringRevision'
-import {Display2,Display3,Display4} from './destructuringRevision'
+// import Button from './destructuringRevision'
+// import {Display} from './destructuringRevision'
+// import {Display2,Display3,Display4} from './destructuringRevision'
+// import Counter from './useStateRevise'
+// import { multiplyAll,add } from './useStateRevise'
+// export default function App(){
+//   const nums = [10, 20, 30];
+//   const a = [1, 2];
+//   const b = [3, 4];
+//   const c = [5, 6];
+//   const newArr = [...a,...b,...c];
+//   const person = {
+//   name: "Sarah",
+//   details: {
+//     age: 25,
+//     city: "Pokhara"
+//   }
+// };
+// combine([1, 2], [3], [4, 5])
+// // output → [1,2,3,4,5]
+// function combine(a,b,c){
+//   console.log([...a,...b,...c]);
+// }
+
+// const details = {age:30,city:"kathmandu"};
+// const newPerson = {...person,details};
+
+// console.log(newPerson);
+//   console.log(add(...nums),newArr);
+//   multiplyAll(2,3,4);
+//   return(
+//     <>
+//     <Button label='Click Me' funct={()=>alert('You clicked')}></Button>
+//     <Display></Display>
+//     <Display2></Display2>
+//     <Display3></Display3>
+//     <Display4></Display4>
+//     <Counter></Counter>
+//     </>
+//   )
+// }
+// import { Counter } from "./useStateRevise";
+// import { sumAll,countArgs,combine,removeFirst,safeUser,analyze,deepMerge} from "./restSpread";
+// export default function App(){
+//  sumAll(1, 2, 3, 4);  
+//  sumAll(10, 5);    
+//  countArgs("a", true, 5, {}, []);   
+//  combine([1,2], [3], [4,5]);  
+//  removeFirst([10, 20, 30]); 
+//  const user = {
+//   username: "john",
+//   age: 20,
+//   password: "secret"
+// };
+// safeUser(user); 
+// const obj1 = { a: 1, b: { x: 10 } };
+// const obj2 = { b: { y: 20 }, c: 3 };
+// const obj3 = { d: 4 };
+// deepMerge(obj1,obj2,obj3);
+// return(
+// <>
+// <Counter></Counter>
+// </>)
+// console.log(analyze(1, "a", [1], {x:1}, [2]))
+
+// }
+// import TodoList from "./useStateRevise";
+// import { UserProfileForm } from "./useStateRevise";
+// export default function App(){
+//   return(
+//   <>
+//   <TodoList>
+//   </TodoList>
+//   <UserProfileForm>
+//   </UserProfileForm>
+//   </>)
+// }
+// import Question from "./useStateRevise";
+// export default function Render(){
+//   return(
+//     <>
+//   <Question>
+//   </Question>
+//   </>)
+// }
+import Render from "./useReducerRevision";
 export default function App(){
   return(
     <>
-    <Button label='Click Me' funct={()=>alert('You clicked')}></Button>
-    <Display></Display>
-    <Display2></Display2>
-    <Display3></Display3>
-    <Display4></Display4>
+    <Render>
+    </Render>
     </>
   )
 }
