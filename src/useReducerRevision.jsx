@@ -221,7 +221,7 @@
 
 // }
 
-import {useState,useReact} from "react"
+import {useState,useReducer,} from "react"
 const initialState = {
   categories: [
     {
@@ -233,5 +233,224 @@ const initialState = {
     },
   ]
 }
-
- 
+function reducer(state,action){
+    switch(action.type){
+      case "addCategory":{
+        const newName = {id:action.id,
+            name:action.name,
+            items:[] 
+        }
+        const newArr = [...state.categories,newName];
+        return({...state,categories:newArr});
+      }
+    case "deleteCategory":{
+       const filterState = state.categories.filter((sta)=>sta.id !== action.id);
+       return({...state,categories:filterState});
+    }
+    case "editCategory":{
+      const editedArr = state.categories.map((sta)=>{
+        if(sta.id === action.id){
+          return({
+            ...sta,
+            name:action.name
+          })
+        }
+        else{
+          return sta;
+        }
+      })
+       return({...state,categories:editedArr});
+    }
+    case "addItem": {
+        const newItem = {id:action.itemId,name:action.itemName,price:action.itemPrice,qty:action.itemQty};
+        const newArr = state.categories.map((sta)=>{
+        if(action.catId === sta.id){
+            return {...sta,items:[...sta.items,newItem]};
+        }
+    else{
+        return sta;
+    }})
+    return ({...state,categories:newArr});
+    //     if(action.name == state.categories.name){
+    //     const updatedItem = [...state.categories,newItem]
+    // }
+    }
+    case "deleteItem":{
+      const updatedItem = state.categories.map((sta)=>{
+        if(sta.id === action.catId){
+        const uItem = sta.items.filter((st)=>st.id !== action.id)
+        return({...sta,items:uItem});
+        }
+        else{
+          return sta;
+        }
+      })
+     return({...state,categories:updatedItem})
+    }
+    case "editItem":{
+     const editedItem = state.categories.map((sta)=>{
+      if(sta.id === action.catId){
+     const eItem = sta.items.map((st)=>{
+        if(st.id === action.id){
+          return({...st,name:action.name,price:action.price,qty:action.qty});
+        }
+        else{
+          return st
+        }
+      })
+      return {...sta,items:eItem};
+      }
+      else{
+        return sta
+      }
+     })
+         return({...state,categories:editedItem})}
+    default:{
+      return state;
+    }
+    }
+}
+export default function Render(){
+  const [display,setDisplay] = useState(false); 
+  const [isEdit,setisEdit] = useState(false);
+  const [editItems,setEditItems] = useState(false);
+  const [isEditId,setisEditId] = useState(null);
+  const [editItemId,setEditItemId] = useState({catId:"",id:""})
+    const [name,setName] = useState("");
+    const [itemName,setItemName] = useState("");
+    const [itemPrice,setItemPrice] = useState("");
+    const [itemQuantity,setItemQuantity] = useState("");
+    const [categoryId,setCategoryId] = useState(null);
+    const [state,dispatch] = useReducer(reducer,initialState);
+    function addCategory(){
+  if(isEdit){
+    setisEdit(false);
+    dispatch({id:isEditId,name:name,type:"editCategory"})
+  }
+  else if(name){
+    dispatch({id:Date.now(),name:name,type:"addCategory"})
+  }
+  else{
+    alert("You need to enter the Name of the Category");
+  }
+  setisEdit("");
+  setName("");
+}
+function addItem(){
+  if(!itemName || !itemPrice || !itemQuantity){
+      alert("Please fill all the details of the item");
+      return
+      }
+  if(editItems){
+    dispatch({type:"editItem",name:itemName,price:itemPrice,qty:itemQuantity,catId:editItemId.catId,id:editItemId.id})
+  }else{
+    dispatch({itemId:Date.now(),type:"addItem",itemName:itemName,itemPrice:itemPrice,itemQty:itemQuantity,catId:categoryId})
+  }
+  setItemName("");
+  setItemPrice("");
+  setItemQuantity("");
+   setEditItems(false);
+    setEditItemId({catId:"", id:""});
+  setDisplay(false);
+}
+function editCategory(id){
+  setisEdit(true);
+  setisEditId(id);
+  const foundCat = state.categories.find((sta)=>sta.id === id);
+  setName(foundCat.name);
+}
+function editItem(catId,id){
+  setEditItems(true);
+  setDisplay(true);
+  setEditItemId({...editItemId,catId:catId,id:id});
+  setCategoryId(catId);
+  state.categories.map((sta)=>{
+    if(sta.id === catId){
+      const editIemValue = sta.items.find((st)=>st.id === id);
+      setItemName(editIemValue.name);
+      setItemPrice(editIemValue.price);
+      setItemQuantity(editIemValue.qty); 
+      
+    }
+  })
+}
+function itemTotal(id){
+  let returnValue = 0;
+  state.categories.forEach((sta)=>{
+    sta.items.forEach((item)=>{
+      if(item.id === id){
+        returnValue = item.price*item.qty;
+      }
+    })
+  }) 
+  return(returnValue);
+}
+function CategoryTotal(id){
+  let returnValue = 0;
+  state.categories.forEach((sta)=>{
+    if(sta.id === id){
+      sta.items.forEach((item)=>{
+        returnValue += item.price*item.qty;
+      })
+    }  
+  }) 
+  return(returnValue);
+}
+function grandTotal(){
+  let returnValue = 0;
+  state.categories.forEach((sta)=>{
+    sta.items.forEach((item)=>{
+      returnValue += item.qty * item.price;
+    })
+  })
+  return(returnValue);
+}
+    return(
+        <>
+        <label htmlFor="category">Enter the new Category: <input type="text" id="category" value={name} onChange={(e)=>setName(e.target.value)}/></label>
+        <button onClick={()=>addCategory()}>Add Category</button>
+        {state.categories.map((sta)=>{
+            return(
+            <div className="inline" key={sta.id}>
+                <p>{sta.name}</p>
+                <button className="mr-2.5" onClick={()=>{setDisplay(true)
+                  setCategoryId(sta.id)
+                }}>Add New Item</button>
+                {display && (categoryId===sta.id) &&  <div className="">
+                <label htmlFor="">Enter Item Name: <input type="text" value={itemName} onChange={(e)=>setItemName(e.target.value)}/></label>
+                <br />
+                <label htmlFor="">Enter Item Price: <input type="text" value={itemPrice} onChange={(e)=>setItemPrice(Number(e.target.value))}/></label>
+                <br />
+                <label htmlFor="">Enter the Quantity: <input type="text" value={itemQuantity} onChange={(e)=>setItemQuantity(Number(e.target.value))}/></label>
+                <br />
+                <button onClick={()=>
+                  {
+                  setDisplay(false)
+                  setCategoryId(null)
+                  setItemName("");
+                  setItemPrice("");
+                  setItemQuantity("");
+                  }} className="mr-2">Cancel</button>
+                <button onClick={()=>addItem()}>Add Item</button>
+                </div>}
+                {(sta.items.length !== 0)?
+                sta.items.map((st)=>{
+                return(
+            <div className="inline" key={st.id}>
+                <p className="">Item: Name: {st.name} Price:{st.price} Quantity:{st.qty} Total:{itemTotal(st.id)}</p>
+                <button className="mr-2" onClick={()=>editItem(sta.id,st.id)}> Edit Item</button>
+                <button onClick={()=>dispatch({type:"deleteItem",id:st.id,catId:sta.id})}>Delete Item</button>
+                 <br />
+            </div>
+            )
+        }):<p>No Current Item</p>}
+        <p>{sta.name} Total: {CategoryTotal(sta.id)}</p>
+        <button className="mr-2" onClick={()=>editCategory(sta.id)}>Edit Category</button>
+        <button onClick={()=>dispatch({type:"deleteCategory",id:sta.id,})}>Delete Category</button>
+        <p>Grand Total for all Categories:{grandTotal()}</p>
+                </div>
+            )
+        })}
+        </>
+    )
+} 
