@@ -1501,13 +1501,20 @@
 //   </Question>
 //   </>)
 // }
-import Render from "./useReducerRevision";
-export default function App(){
-  return(
-    <>
-    <Render>
-    </Render>
-    </>
-  )
-}
-
+// import Render from "./useReducerRevision";
+// export default function App(){
+//   return(
+//     <>
+//     <Render>
+//     </Render>
+//     </>
+//   )
+// }
+// import Render from "./stateLiftingPatternRevision";
+// export default function App(){
+//     return(
+//         <>
+//         <Render></Render>
+//         </>
+//     )
+// } 

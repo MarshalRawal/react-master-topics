@@ -1,227 +1,153 @@
-// import {useReducer} from "react"
-// const initialState = {count:0,history:[]};
-// function reducer(state,action){
-//     switch(action.type){
-//         case "Increment":
-//         return({...state,count:state.count+1,history:[...state.history,state.count+1]});
-//         case "Decrement":
-//         return({...state,count:state.count-1,history:[...state.history,state.count-1]});
-//         case "Reset":
-//         return(initialState);
-//         default:
-//         return state;
-//     }
-// }
-// export default function Render(){
-//     const [state,dispatch] = useReducer(reducer,initialState);
+
+// export default function Parent(){
+//     const [text,setText] = useState("");
 //     return(
 //         <>
-//         <p>Count: {state.count}</p>
-//         <p>History: {(state.history).join(",")}</p>
-//         <button onClick={()=>dispatch({type:"Increment"})}>Increment</button>
-//         <button onClick={()=>dispatch({type:"Decrement"})}>Decrement</button>
-//         <button onClick={()=>dispatch({type:"Reset"})}>Reset</button>
+//         <Input value={text} onChange={setText}/>
+//         <Input value={text} onChange={setText}/>
 //         </>
 //     )
-
 // }
-
-// import {useReducer, useState} from "react";
-// const initialState = {item:[],total:0};
-// function reducer(state,action){
-//   switch(action.type){
-//     case "AddItem":{
-//     let newArr = [{name:action.name,price:action.price,id:Date.now()}];
-//     let updatedArr = [...state.item,...newArr];
-//     let totalPrice = updatedArr.reduce((a,b)=>a+b.price,0);
-//     return({
-//         item:updatedArr,
-//         total:totalPrice
-//     })
-//     }
-//     case "DeleteItem":{
-//         let updatedArr = state.item.filter((item)=>item.id!=action.id);
-//         let totalPrice = updatedArr.reduce((a,b)=>a+b.price,0);
-//         return(
-//             {item:updatedArr,
-//             total:totalPrice
+// function Input({value,onChange}){
+//     return(
+//         <input type="text" value={value} onChange={(e)=>onChange(e.target.value)}/>
+//     )
+// }
+// function Calculator(first){
+//     switch(first){
+//         case "add":{
+//             return function fistarg(a){
+//                 return function add(b){
+//                     console.log(a+b);
+//                 }
 //             }
+//         }
+//         case "mul":{
+//             return function fistarg(a){
+//                 return function mul(b){
+//                     console.log(a*b);
+//                 }
+//             }
+//         }
+//     }
+// }
+// function Input({value,onChange}){
+//         return(
+//             <input type="text" value={value} onChange={onChange}/>
 //         )
 //     }
-//     case "Edit":{
-//         const editedArr = state.item.map((item)=>{
-//          if(action.id  == item.id){
-//             return {
-//                 id:action.id,
-//                 name:action.name,
-//                 price:action.price
-//             }
-//          }
-//          else{
-//             return item
-//          }
-//         })
-//         const totalPrice = editedArr.reduce((a,b)=>a+b.price,0); 
+// function Display({value}){
 //         return(
-//             {item:editedArr,total:totalPrice}
+//             <>
+//             <p>{value}</p>
+//             <p>{value}</p>
+//             </>
 //         )
 //     }
-//     case "Reset":
-//         return initialState;
-//     default:
-//         return state;
-//   }
-// }
 // export default function Render(){
-//     const [state,dispatch] = useReducer(reducer,initialState);
-//     const [editId,setEditId] = useState(0);
-//     const [editing,setEditing] = useState(false);
+//     const [value,setValue] = useState("");
+//     const newCalc = Calculator("mul");
+//     const newstep = newCalc(4);
+//     newstep(10);
+//     return(
+//         <>
+//         {Calculator("add")(2)(3)}
+//         {}
+//         Enter<Input value={value} onChange={(e)=>setValue(e.target.value)}/>
+//         <Display value={value}/>
+//         </>
+//     )
+// }
+
+// closure example
+// export default function Counter() {
+//     const [count,setCount] = useState(0);
+//     function handleClick(){
+//         setTimeout(()=>{
+//             setCount((count)=>count+1);
+//             console.log("Count: ",count);
+//         },2000);
+//     }
+//     return(
+//         <div className="">
+//             <p>: {count}</p>
+//             <button onClick={handleClick}>Increase</button>
+//         </div>
+//     )
+// }
+
+// function Display({count}){
+//     return(
+//     <>
+//     <p>Count: {count}</p>
+//     </>
+//     )  
+// }
+// function Counter({count,setCount}){
+//     return(
+//         <>
+//         <button onClick={()=>setCount(count+1)}>Increment</button>
+//         <button onClick={()=>setCount(count-1)}>Decrement</button>
+//         </>
+//     )
+// }
+// export default function App(){
+//     const [count,setCount] = useState(0);
+//     return(
+//         <>
+//         <Display count={count}></Display>
+//         <Counter count={count} setCount={setCount}></Counter>
+//         </>
+//     )
+// }
+
+// function Input({input,setInput,label}){
+// return(
+//     <label>{label}: <input value={input} onChange={(e)=>setInput(e.target.value)}></input></label>
+// )
+// }
+// export default function App(){
+//     const [message,setMessage] = useState("");
 //     const [name,setName] = useState("");
-//     const [price,setPrice] = useState("");
-//     function addTask(){
-//         if(!editing){
-//         if(!(name&&price)){
-//             alert("You need to fill in name and price fields");
-//             return 
-//         }
-//         else{
-//             dispatch({type:"AddItem",price:price,name:name})
-//             setPrice("");
-//             setName("");
-//         }
+//     const [age,setAge] = useState("");
+//     function validate(event){
+//     event.preventDefault();
+//     if(!age || !name){
+//         alert("Please Enter your name and age");
+//         return 
 //     }
-//     else{
-//          if(!(name&&price)){
-//             alert("You need to fill in name and price fields");
-//             return 
-//         }
-//         else{
-//             dispatch({type:"Edit",price:price,name:name,id:editId})
-//             setPrice("");
-//             setName("");
-//         }
+//     if(age>100){
+//         alert("Please Enter a valid age");
+//         return
 //     }
+//     else if(age<18){
+//         alert("You are too Young to enter this site");
+//         return
 //     }
-//     function editTask(id){
-//         setEditing(true);
-//         setEditId(id);
-//         const itemExists = state.item.find((item)=>id==item.id);
-//         if(itemExists){
-//             setName(itemExists.name)
-//             setPrice(itemExists.price)
-      
-//         }
-//     }
+//     setMessage("Form Submitted Successful");
+// }
 //     return(
 //         <>
-//         <label htmlFor="">Name: <input type="text" value={name} onChange={(e)=>setName(e.target.value)}/></label>
-//         <label htmlFor="">Price: <input type="text" value={price} onChange={(e)=>setPrice(Number(e.target.value))} /></label>
-//         <button onClick={()=>addTask()}>Add Item</button>
-//         <button onClick={()=>dispatch({type:"Reset"})}>Reset</button>
-//         {/* <input type="text" /> */}
-//         {state.item.map((sta)=>
-//         {
-//             return(
-//                 <div className="" key={sta.id}>
-//                 <p>{sta.name} {sta.price}</p>
-//                 <button onClick={()=>dispatch({type:"DeleteItem",id:sta.id})}>Delete</button>
-//                 <button onClick={()=>editTask(sta.id)}>Edit</button>
-//                 </div>
-//             )
-//         })}
-//         <p>{state.total}</p>
+//         <form action="" onSubmit={validate}>
+//         <Input input={name} setInput={setName} label="Name:"></Input>
+//         <Input input={age} setInput={setAge} label="Age:"></Input>
+//         <button type="submit">Submit</button>
+//         {message && <p>{message}</p>}
+//         </form>
 //         </>
 //     )
+
 // }
+
 
 // import {useState,useReducer} from "react"
-// const initialState =  [{task:"Code for 4 hours",id:Date.now()}];
-// function reducer(state,action){
-//    switch(action.type){
-//     case "addTask":{
-//         const newTask = {task:action.task,id:action.id};
-//         return ([...state,newTask]);
-//     }
-//     case "editTask":{
-//       const editArr = state.map((sta)=>{
-//         if(sta.id == action.id){
-//             return{
-//                 task:action.task,
-//                 id:action.id,
-//             }
-//         }
-//          else{
-//             return sta;
-//         }
-//       }) 
-//       return(editArr);
-// }
-//    case "deleteTask": {
-//     const deleteArr = state.filter((sta)=>sta.id != action.id);
-//     return deleteArr;
-//    }
-//    case "resetTask":{
-//     return initialState;
-//    }
-//    default: {
-//  return state;
-//    }
-//    }
-// }
-// export default function Render(){
-//     const [state,dispatch] = useReducer(reducer,initialState);
-//     const [editId,setEditId] = useState(null);
-//     const [task,setTask] = useState("");
-//     const [edit,setEdit] = useState(false);
-//     function addTask(){
-//          if(!task){
-//             alert("Please Enter a task");
-//          }
-//          else{
-//             if(edit){
-//             dispatch({task:task,id:editId,type:"editTask"});
-//             setTask("");
-//             setEdit(false);
-//             }
-//             else{
-//             dispatch({task:task,id:Date.now(),type:"addTask"});
-//             setTask(" ");
-//          }
-//          }
-//     }
-//     function editTask(id){
-//         setEditId(id);
-//         setEdit(true);
-//         const findArr = state.find((sta)=>sta.id == id);
-//         if(findArr){
-//             setTask(findArr.task);
-//         } 
-//     }
+// function SearchBar({searchInput,setSearchInput}){
 //     return(
 //         <>
-//         <label htmlFor="">Enter your Task
-//          <br />
-//         <input type="text"
-//         value={task}
-//         onChange={(e)=>setTask(e.target.value)}/>
-//         </label>
-//         <button onClick={()=>addTask()}>Add Task</button>
-//         {state.map((sta)=>{
-//             return(
-//                 <div className="flex" key={sta.id}>
-//                 <p>{sta.task}</p>
-//                 <button className="ml-2" onClick={()=>editTask(sta.id)}>Edit</button>
-//                 <button onClick={()=>dispatch({type:"deleteTask",id:sta.id})}>Delete</button>
-//                 </div>
-//             )
-//         })}
-//         <button onClick={()=>dispatch({type:"resetTask"})}>Reset</button>
+//         <label htmlFor="">Enter the category <input type="text" placeholder="Category Name" value={searchInput} onChange={(e)=>setSearchInput(e.target.value)} /></label>
 //         </>
 //     )
-
 // }
-
-// import {useState,useReducer,} from "react"
 // const initialState = {
 //   categories: [
 //     {
@@ -311,6 +237,7 @@
 //     }
 // }
 // export default function Render(){
+//   const [searchInput,setSearchInput] = useState("");
 //   const [display,setDisplay] = useState(false); 
 //   const [isEdit,setisEdit] = useState(false);
 //   const [editItems,setEditItems] = useState(false);
@@ -405,11 +332,14 @@
 //   })
 //   return(returnValue);
 // }
+// const filteredArray = searchInput?state.categories.filter((sta)=>sta.name.toLowerCase().includes(searchInput.toLowerCase())):state.categories;
 //     return(
 //         <>
-//         <label htmlFor="category">Enter the new Category: <input type="text" id="category" value={name} onChange={(e)=>setName(e.target.value)}/></label>
+//         <SearchBar searchInput={searchInput} setSearchInput={setSearchInput}></SearchBar>
+//         <label htmlFor="category">Enter the new Category: <input type="text" id="category" value={name} onChange={(e)=>
+//             setName(e.target.value)}/></label>
 //         <button onClick={()=>addCategory()}>Add Category</button>
-//         {state.categories.map((sta)=>{
+//         {filteredArray.map((sta)=>{
 //             return(
 //             <div className="inline" key={sta.id}>
 //                 <p>{sta.name}</p>
