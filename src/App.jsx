@@ -1518,3 +1518,19 @@
 //         </>
 //     )
 // } 
+// import Render from "./Immutableupdates"
+// export default function App(){
+// return(
+//     <Render>
+//     </Render>
+// )
+// }
+import Render from "./useEffectHook"
+import { useState } from "react"
+export default function App(){
+    return(
+        <>
+        <Render></Render>
+        </>
+    )
+}
